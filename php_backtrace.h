@@ -40,6 +40,18 @@
 #	define BACKTRACE_ATTRIBUTE_MALLOC
 #endif
 
+BACKTRACE_VISIBILITY_HIDDEN extern zend_module_entry backtrace_module_entry;
+
+#define phpext_backtrace_ptr &backtrace_module_entry
+
+#if COMPILE_DL_BACKTRACE
+#	define XXX_EXTENSION_ENTRY zend_extension_entry
+extern ZEND_DLEXPORT zend_extension zend_extension_entry;
+#else
+#	define XXX_EXTENSION_ENTRY backtrace_extension_entry
+BACKTRACE_VISIBILITY_HIDDEN extern zend_extension backtrace_extension_entry;
+#endif
+
 ZEND_BEGIN_MODULE_GLOBALS(backtrace)
 	char* btdir;
 	zend_bool safe_backtrace;
@@ -49,4 +61,3 @@ ZEND_BEGIN_MODULE_GLOBALS(backtrace)
 ZEND_END_MODULE_GLOBALS(backtrace)
 
 #endif
-

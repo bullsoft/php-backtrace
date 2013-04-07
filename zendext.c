@@ -5,7 +5,6 @@
  *      Author: vladimir
  */
 
-#include "zendext.h"
 #include "backtrace.h"
 #include <ext/standard/info.h>
 
@@ -208,7 +207,7 @@ static void backtrace_zend_shutdown(zend_extension* extension)
 #if COMPILE_DL_BACKTRACE
 ZEND_DLEXPORT
 #endif
-zend_extension backtrace_extension_entry = {
+zend_extension XXX_EXTENSION_ENTRY = {
 	PHP_BACKTRACE_EXTNAME,
 	PHP_BACKTRACE_EXTVER,
 	PHP_BACKTRACE_AUTHOR,
@@ -240,4 +239,3 @@ zend_extension backtrace_extension_entry = {
 #if COMPILE_DL_BACKTRACE
 ZEND_EXTENSION();
 #endif
-
