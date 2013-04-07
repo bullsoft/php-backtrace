@@ -1,0 +1,17 @@
+backtrace (0-2-1ppa1) precise; urgency=low
+
+  * PHP 5,4 compatibility
+
+ -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 07 Apr 2013 20:08:00 +0200
+
+backtrace (0.1-1~lucid~sj1) lucid; urgency=low
+
+  * Backport from Karmic
+
+ -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 12 May 2010 22:08:17 +0700
+
+backtrace (0.1-1~karmic~sj1) karmic; urgency=low
+
+  * Initial release
+
+ -- Vladimir Kolesnikov <vladimir@extrememember.com>  Tue, 30 Mar 2010 14:30:25 +0300

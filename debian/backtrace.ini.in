@@ -1,0 +1,9 @@
+[backtrace]
+zend_extension = @EXTDIR@/backtrace.so
+
+backtrace.directory = /tmp
+backtrace.safe_backtrace = 1
+backtrace.skip_args = 0
+backtrace.be_nice = 1
+backtrace.enabled = 1
+

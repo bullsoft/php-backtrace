@@ -1,0 +1,33 @@
+Source: backtrace
+Section: php
+Priority: optional
+Maintainer: Vladimir Kolesnikov <vladimir@extrememember.com>
+Build-Depends: debhelper (>= 7.0.50~), php5-dev
+Standards-Version: 3.8.4
+Homepage: http://blog.sjinks.pro/
+
+Package: php5-backtrace
+Architecture: any
+Depends: ${shlibs:Depends}, ${php:Depends}, ${misc:Depends}
+Description: Displays what PHP is doing
+ Backtrace allows to get a backtrace from PHP to find out what it is doing.
+ .
+ PHP5 is an HTML-embedded scripting language. Much of its syntax is borrowed
+ from C, Java and Perl with a couple of unique PHP-specific features thrown
+ in. The goal of the language is to allow web developers to write
+ dynamically generated pages quickly.
+
+Package: php5-backtrace-dbg
+Depends: ${misc:Depends}, php5-backtrace (= ${binary:Version})
+Recommends: gdb
+Section: debug
+Priority: extra
+Architecture: any
+Description: Debug symbols for php5-backtrace
+ This package provides the debug symbols for php5-backtrace needed for properly
+ debugging errors with gdb.
+ .
+ PHP5 is an HTML-embedded scripting language. Much of its syntax is borrowed
+ from C, Java and Perl with a couple of unique PHP-specific features thrown
+ in. The goal of the language is to allow web developers to write dynamically
+ generated pages quickly.

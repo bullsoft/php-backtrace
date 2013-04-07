@@ -2,7 +2,7 @@
 #define PHP_BACKTRACE_H
 
 #define PHP_BACKTRACE_EXTNAME   "backtrace"
-#define PHP_BACKTRACE_EXTVER    "0.1"
+#define PHP_BACKTRACE_EXTVER    "0.2"
 #define PHP_BACKTRACE_AUTHOR    "Vladimir Kolesnikov"
 #define PHP_BACKTRACE_URL       "http://blog.sjinks.pro/"
 #define PHP_BACKTRACE_COPYRIGHT "Copyright (c) 2009, 2010"
