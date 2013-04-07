@@ -1,4 +1,3 @@
-php-backtrace
-=============
+# php-backtrace
 
 Backtrace PHP extension
