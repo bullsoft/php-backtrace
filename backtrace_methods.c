@@ -60,7 +60,10 @@ BACKTRACE_ATTRIBUTE_MALLOC static smart_str* arg_to_string(zval** arg, char* com
 				break;
 
 			case IS_OBJECT: {
-				char* class_name;
+#if ZEND_MODULE_API_NO >= 20100525
+				const
+#endif
+				char* class_name = NULL;
 				zend_uint class_name_len;
 				HashTable* ht;
 #ifdef Z_OBJDEBUG_PP
@@ -78,7 +81,7 @@ BACKTRACE_ATTRIBUTE_MALLOC static smart_str* arg_to_string(zval** arg, char* com
 				smart_str_appendc(res, ' ');
 				smart_str_append_long(res, ht ? zend_hash_num_elements(ht) : 0);
 				smart_str_appendc(res, ')');
-				efree(class_name);
+				efree((char*)class_name);
 
 #ifdef Z_OBJDEBUG_PP
 				if (is_temp) {
@@ -90,6 +93,9 @@ BACKTRACE_ATTRIBUTE_MALLOC static smart_str* arg_to_string(zval** arg, char* com
 			}
 
 			case IS_RESOURCE: {
+#if ZEND_MODULE_API_NO >= 20100525
+				const
+#endif
 				char* tn = zend_rsrc_list_get_rsrc_type(Z_LVAL_PP(arg) TSRMLS_CC);
 				smart_str_appends(res, "resource(");
 				smart_str_append_long(res, Z_LVAL_PP(arg));
@@ -163,7 +169,13 @@ void safe_backtrace(int fd TSRMLS_DC)
 				smart_str_appends(&s, "(unknown), ");
 			}
 			else {
-				switch (d->opline->op2.u.constant.value.lval) {
+				switch (
+#if ZEND_MODULE_API_NO >= 20100525
+					d->opline->extended_value
+#else
+					d->opline->op2.u.constant.value.lval
+#endif
+				) {
 					case ZEND_EVAL:
 						smart_str_appends(&s, "eval, ");
 						break;
@@ -253,7 +265,15 @@ void debug_backtrace(int fd, int skip_args TSRMLS_DC)
 	s.c = NULL;
 	INIT_ZVAL(backtrace);
 
-	zend_fetch_debug_backtrace(&backtrace, 0, 0 TSRMLS_CC);
+	zend_fetch_debug_backtrace(
+		&backtrace,
+		0,
+		0
+#if ZEND_MODULE_API_NO >= 20100525
+		, 0
+#endif
+		TSRMLS_CC
+	);
 
 	smart_str_appends(&s, "Backtrace succeeded.\n");
 	smart_str_0(&s);
