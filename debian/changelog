@@ -1,4 +1,4 @@
-backtrace (0-2-1ppa1) precise; urgency=low
+backtrace (0.2-1ppa1) precise; urgency=low
 
   * PHP 5,4 compatibility
 
