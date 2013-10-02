@@ -7,6 +7,7 @@
 
 #include "backtrace.h"
 #include <ext/standard/info.h>
+#include "zts_support.h"
 
 static void (*old_execute_internal)(zend_execute_data* execute_data_ptr, int return_value_used TSRMLS_DC);
 
