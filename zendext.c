@@ -6,10 +6,15 @@
  */
 
 #include "backtrace.h"
+#include <Zend/zend.h>
 #include <ext/standard/info.h>
 #include "zts_support.h"
 
-static void (*old_execute_internal)(zend_execute_data* execute_data_ptr, int return_value_used TSRMLS_DC);
+#if PHP_VERSION_ID >= 50500
+static void (*old_execute_internal)(zend_execute_data*, zend_fcall_info*, int TSRMLS_DC) = NULL;
+#else
+static void (*old_execute_internal)(zend_execute_data*, int TSRMLS_DC) = NULL;
+#endif
 
 #if !COMPILE_DL_BACKTRACE
 zend_extension backtrace_extension_entry;
@@ -134,14 +139,23 @@ zend_module_entry backtrace_module_entry = {
 	STANDARD_MODULE_PROPERTIES_EX
 };
 
-static void backtrace_execute_internal(zend_execute_data* execute_data_ptr, int return_value_used TSRMLS_DC)
+static void backtrace_execute_internal(
+	zend_execute_data* execute_data_ptr,
+#if PHP_VERSION_ID >= 50500
+	zend_fcall_info* fci,
+#endif
+	int return_value_used TSRMLS_DC)
 {
 	if (1 == got_signal) {
 		do_backtrace(TSRMLS_C);
 		got_signal = 0;
 	}
 
+#if PHP_VERSION_ID >= 50500
+	old_execute_internal(execute_data_ptr, fci, return_value_used TSRMLS_CC);
+#else
 	old_execute_internal(execute_data_ptr, return_value_used TSRMLS_CC);
+#endif
 
 	if (1 == got_signal) {
 		do_backtrace(TSRMLS_C);
@@ -223,12 +237,12 @@ zend_extension XXX_EXTENSION_ENTRY = {
 	NULL,    /* Message handler */
 	NULL,    /* Op Array Handler */
 
-	NULL,   /* Statement handler */
-	NULL,   /* fcall begin handler */
-	NULL,   /* fcall end handler */
+	NULL,    /* Statement handler */
+	NULL,    /* fcall begin handler */
+	NULL,    /* fcall end handler */
 
-	NULL, /* Op Array Constructor */
-	NULL, /* Op Array Destructor */
+	NULL,    /* Op Array Constructor */
+	NULL,    /* Op Array Destructor */
 
 	STANDARD_ZEND_EXTENSION_PROPERTIES
 };
