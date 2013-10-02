@@ -13,4 +13,4 @@ compiler:
   - clang
 
 script:
-  - phpize && ./configure && make
+  - phpize && ./configure --silent && make --silent
