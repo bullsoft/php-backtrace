@@ -12,8 +12,5 @@ compiler:
   - gcc
   - clang
 
-install:
-  - sudo apt-get -qq install php5-dev
-
 script:
   - phpize && ./configure && make
