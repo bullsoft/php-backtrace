@@ -78,7 +78,7 @@ void do_backtrace(TSRMLS_D)
 	size_t len = strlen(BACKTRACE_G(btdir));
 	if (len > 2000) {
 #ifdef DEBUG
-		fprintf(stderr, "[%d]: len is to big\n", getpid());
+		fprintf(stderr, "[%d]: len is too big\n", getpid());
 		fflush(stderr);
 #endif
 		return;

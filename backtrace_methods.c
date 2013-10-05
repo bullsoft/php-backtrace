@@ -39,9 +39,9 @@ BACKTRACE_ATTRIBUTE_MALLOC static smart_str* arg_to_string(zval** arg, char* com
 				smart_str_appends(res, "string(\"");
 				if (Z_STRVAL_PP(arg)) {
 					char* s = Z_STRVAL_PP(arg);
-					int len = Z_STRLEN_PP(arg) <= 50 ? Z_STRLEN_PP(arg) : 50;
+					int len = Z_STRLEN_PP(arg) <= 100 ? Z_STRLEN_PP(arg) : 100;
 					smart_str_appendl(res, s, len);
-					if (Z_STRLEN_PP(arg) > 50) {
+					if (Z_STRLEN_PP(arg) > 100) {
 						smart_str_appends(res, "...");
 					}
 				}
@@ -60,7 +60,7 @@ BACKTRACE_ATTRIBUTE_MALLOC static smart_str* arg_to_string(zval** arg, char* com
 				break;
 
 			case IS_OBJECT: {
-#if ZEND_MODULE_API_NO >= 20100525
+#if PHP_VERSION_ID >= 50400
 				const
 #endif
 				char* class_name = NULL;
@@ -93,7 +93,7 @@ BACKTRACE_ATTRIBUTE_MALLOC static smart_str* arg_to_string(zval** arg, char* com
 			}
 
 			case IS_RESOURCE: {
-#if ZEND_MODULE_API_NO >= 20100525
+#if PHP_VERSION_ID >= 50400
 				const
 #endif
 				char* tn = zend_rsrc_list_get_rsrc_type(Z_LVAL_PP(arg) TSRMLS_CC);
@@ -170,7 +170,7 @@ void safe_backtrace(int fd TSRMLS_DC)
 			}
 			else {
 				switch (
-#if ZEND_MODULE_API_NO >= 20100525
+#if PHP_VERSION_ID >= 50400
 					d->opline->extended_value
 #else
 					d->opline->op2.u.constant.value.lval
@@ -269,7 +269,7 @@ void debug_backtrace(int fd, int skip_args TSRMLS_DC)
 		&backtrace,
 		0,
 		0
-#if ZEND_MODULE_API_NO >= 20100525
+#if PHP_VERSION_ID >= 50400
 		, 0
 #endif
 		TSRMLS_CC
@@ -370,4 +370,3 @@ void debug_backtrace(int fd, int skip_args TSRMLS_DC)
 
 	zval_dtor(&backtrace);
 }
-
