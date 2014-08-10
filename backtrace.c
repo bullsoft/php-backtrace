@@ -68,8 +68,6 @@ static void make_backtrace(int fd, zend_backtrace_globals* g TSRMLS_DC)
 
 	smart_str_free(&s);
 	s.c = NULL;
-
-	close(fd);
 }
 
 void do_backtrace(TSRMLS_D)
